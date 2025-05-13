@@ -104,5 +104,9 @@ export const kkKZ = {
       freelancers: "Фрилансерлер",
       services: "Қызметтер"
     }
+  },
+  currency: {
+    symbol: "₸",
+    format: "numeric" // This will be used to determine the currency format
   }
 };

@@ -4,12 +4,14 @@ import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useCurrencyFormatter } from "@/utils/currency";
 
 type CategoryProject = {
   id: number;
   title: string;
   description: string;
-  budget: string;
+  budget: number;
   freelancer: {
     name: string;
     avatar: string;
@@ -23,7 +25,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 1,
       title: "E-commerce Website Development",
       description: "Need a full-featured online store with payment integration",
-      budget: "$1,500 - $3,000",
+      budget: 2500,
       freelancer: {
         name: "Mike Wilson",
         avatar: "https://i.pravatar.cc/100?img=3",
@@ -34,7 +36,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 2,
       title: "WordPress Blog Customization",
       description: "Looking for expert to customize my WordPress theme",
-      budget: "$400 - $800",
+      budget: 600,
       freelancer: {
         name: "Jennifer Lee",
         avatar: "https://i.pravatar.cc/100?img=5",
@@ -45,7 +47,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 3,
       title: "React.js Dashboard",
       description: "Build an admin dashboard with React and Chart.js",
-      budget: "$800 - $1,500",
+      budget: 1200,
       freelancer: {
         name: "David Park",
         avatar: "https://i.pravatar.cc/100?img=8",
@@ -58,7 +60,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 1,
       title: "Brand Identity Package",
       description: "Need logo, business cards, and brand guidelines",
-      budget: "$500 - $1,200",
+      budget: 800,
       freelancer: {
         name: "Sarah Miller",
         avatar: "https://i.pravatar.cc/100?img=5",
@@ -69,7 +71,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 2,
       title: "UI/UX for Mobile App",
       description: "Design 15 screens for fitness tracking app",
-      budget: "$1,200 - $2,000",
+      budget: 1600,
       freelancer: {
         name: "Michael Chen",
         avatar: "https://i.pravatar.cc/100?img=11",
@@ -82,7 +84,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 1,
       title: "Blog Content Series",
       description: "10 SEO-optimized articles about digital marketing",
-      budget: "$350 - $700",
+      budget: 500,
       freelancer: {
         name: "Emma Watson",
         avatar: "https://i.pravatar.cc/100?img=9",
@@ -93,7 +95,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 2,
       title: "Product Descriptions",
       description: "Write compelling descriptions for 50 products",
-      budget: "$250 - $500",
+      budget: 350,
       freelancer: {
         name: "James Smith",
         avatar: "https://i.pravatar.cc/100?img=12",
@@ -106,7 +108,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 1,
       title: "Explainer Video",
       description: "60-second animated explainer for SaaS product",
-      budget: "$800 - $1,500",
+      budget: 1200,
       freelancer: {
         name: "Chris Johnson",
         avatar: "https://i.pravatar.cc/100?img=15",
@@ -117,7 +119,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 2,
       title: "Video Editing for YouTube",
       description: "Edit 10 videos for my YouTube channel",
-      budget: "$500 - $900",
+      budget: 700,
       freelancer: {
         name: "Lisa Wang",
         avatar: "https://i.pravatar.cc/100?img=20",
@@ -130,7 +132,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 1,
       title: "Podcast Editing",
       description: "Weekly podcast editing and production (12 episodes)",
-      budget: "$600 - $1,200",
+      budget: 900,
       freelancer: {
         name: "Ryan Adams",
         avatar: "https://i.pravatar.cc/100?img=22",
@@ -141,7 +143,7 @@ const mockProjects: Record<string, CategoryProject[]> = {
       id: 2,
       title: "Voice Over for Commercial",
       description: "Professional voice over for 30-second ad",
-      budget: "$200 - $400",
+      budget: 300,
       freelancer: {
         name: "Sophia Martinez",
         avatar: "https://i.pravatar.cc/100?img=25",
@@ -162,6 +164,8 @@ export function CategoryModal({
 }) {
   const [activeTab, setActiveTab] = useState("projects");
   const categoryProjects = mockProjects[category] || [];
+  const { t } = useLanguage();
+  const formatCurrency = useCurrencyFormatter();
 
   return (
     <AnimatePresence>
@@ -201,14 +205,14 @@ export function CategoryModal({
               <div className="p-6">
                 <Tabs defaultValue="projects" value={activeTab} onValueChange={setActiveTab}>
                   <TabsList className="mb-6">
-                    <TabsTrigger value="projects">Projects</TabsTrigger>
-                    <TabsTrigger value="freelancers">Top Freelancers</TabsTrigger>
-                    <TabsTrigger value="guides">Guides</TabsTrigger>
+                    <TabsTrigger value="projects">{t('modals.category.projects')}</TabsTrigger>
+                    <TabsTrigger value="freelancers">{t('modals.category.freelancers')}</TabsTrigger>
+                    <TabsTrigger value="guides">{t('modals.category.guides')}</TabsTrigger>
                   </TabsList>
                   
                   <TabsContent value="projects" className="space-y-4">
                     <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-4">
-                      Available Projects
+                      {t('modals.category.availableProjects')}
                     </h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -235,7 +239,7 @@ export function CategoryModal({
                               </span>
                             </div>
                             <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                              {project.budget}
+                              {formatCurrency(project.budget)}
                             </span>
                           </div>
                         </div>
@@ -244,7 +248,7 @@ export function CategoryModal({
                     
                     <div className="mt-6 text-center">
                       <Button onClick={onClose}>
-                        Browse all {category} projects
+                        {t('modals.category.browseAll').replace('{category}', category)}
                       </Button>
                     </div>
                   </TabsContent>
@@ -252,13 +256,13 @@ export function CategoryModal({
                   <TabsContent value="freelancers">
                     <div className="text-center py-8">
                       <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                        Top {category} Freelancers
+                        {t('modals.category.topFreelancers').replace('{category}', category)}
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mt-2">
-                        Find the best talent in {category} for your project
+                        {t('modals.category.findTalent').replace('{category}', category)}
                       </p>
                       <Button className="mt-4">
-                        View all freelancers
+                        {t('modals.category.viewAllFreelancers')}
                       </Button>
                     </div>
                   </TabsContent>
@@ -266,13 +270,13 @@ export function CategoryModal({
                   <TabsContent value="guides">
                     <div className="text-center py-8">
                       <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                        {category} Resources & Guides
+                        {t('modals.category.resourcesGuides').replace('{category}', category)}
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mt-2">
-                        Learn how to make the most of your {category} projects
+                        {t('modals.category.learnMore').replace('{category}', category)}
                       </p>
                       <Button className="mt-4">
-                        View resources
+                        {t('modals.category.viewResources')}
                       </Button>
                     </div>
                   </TabsContent>

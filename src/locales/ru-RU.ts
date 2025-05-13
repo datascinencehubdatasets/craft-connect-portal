@@ -104,5 +104,9 @@ export const ruRU = {
       freelancers: "Фрилансеры",
       services: "Услуги"
     }
+  },
+  currency: {
+    symbol: "₸",
+    format: "numeric" // This will be used to determine the currency format
   }
 };

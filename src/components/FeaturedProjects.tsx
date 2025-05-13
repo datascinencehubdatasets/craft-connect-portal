@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ProjectDetailModal } from "./ProjectDetailModal";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useCurrencyFormatter } from "@/utils/currency";
 
 export function FeaturedProjects() {
   const { t } = useLanguage();
+  const formatCurrency = useCurrencyFormatter();
   const [selectedProject, setSelectedProject] = useState<any>(null);
 
   const projects = [
@@ -19,7 +21,7 @@ export function FeaturedProjects() {
         name: "Alex Johnson",
         avatar: "https://i.pravatar.cc/100?img=1",
       },
-      budget: "$500 USD",
+      budget: 500,
     },
     {
       id: 2,
@@ -30,7 +32,7 @@ export function FeaturedProjects() {
         name: "Sarah Miller",
         avatar: "https://i.pravatar.cc/100?img=5",
       },
-      budget: "$300 USD",
+      budget: 300,
     },
     {
       id: 3,
@@ -41,7 +43,7 @@ export function FeaturedProjects() {
         name: "Mike Wilson",
         avatar: "https://i.pravatar.cc/100?img=3",
       },
-      budget: "$250 USD",
+      budget: 250,
     },
     {
       id: 4,
@@ -52,7 +54,7 @@ export function FeaturedProjects() {
         name: "Emily Chen",
         avatar: "https://i.pravatar.cc/100?img=9",
       },
-      budget: "$800 USD",
+      budget: 800,
     },
   ];
 
@@ -93,7 +95,7 @@ export function FeaturedProjects() {
                       </p>
                     </div>
                     <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-sm font-medium rounded-full">
-                      {project.budget}
+                      {formatCurrency(project.budget)}
                     </span>
                   </div>
 

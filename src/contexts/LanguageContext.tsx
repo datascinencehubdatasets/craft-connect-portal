@@ -22,7 +22,7 @@ const translationMap: Record<Language, Translations> = {
 interface LanguageContextType {
   language: Language;
   setLanguage: (language: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, replacements?: Record<string, string | number>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -44,7 +44,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   };
 
   // Translation function that gets nested keys using dot notation
-  const translate = (key: string): string => {
+  // and handles replacements like {name} or {count}
+  const translate = (key: string, replacements?: Record<string, string | number>): string => {
     const keys = key.split('.');
     let value: any = translationMap[language];
     
@@ -60,7 +61,16 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
         if (fallbackValue === undefined) break;
         fallbackValue = fallbackValue[k];
       }
-      return typeof fallbackValue === 'string' ? fallbackValue : key;
+      
+      // If still no translation found, return the key itself
+      value = typeof fallbackValue === 'string' ? fallbackValue : key;
+    }
+    
+    // Handle replacements if any
+    if (replacements && typeof value === 'string') {
+      Object.entries(replacements).forEach(([replaceKey, replaceValue]) => {
+        value = value.replace(`{${replaceKey}}`, String(replaceValue));
+      });
     }
     
     return value;

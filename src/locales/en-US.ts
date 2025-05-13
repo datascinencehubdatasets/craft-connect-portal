@@ -104,5 +104,9 @@ export const enUS = {
       freelancers: "Freelancers",
       services: "Services"
     }
+  },
+  currency: {
+    symbol: "$",
+    format: "usd" // This will be used to determine the currency format
   }
 };
