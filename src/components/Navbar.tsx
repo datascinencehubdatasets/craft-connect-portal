@@ -14,8 +14,11 @@ import {
   DialogTitle,
   DialogDescription
 } from "@/components/ui/dialog";
+import { LanguageSelector } from "./LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Navbar() {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(1);
   const [notificationsPanelOpen, setNotificationsPanelOpen] = useState(false);
@@ -43,26 +46,27 @@ export function Navbar() {
           {/* Desktop menu */}
           <div className="hidden md:flex md:items-center md:space-x-8">
             <a href="#how-it-works" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-              How It Works
+              {t('navbar.howItWorks')}
             </a>
             <a href="#browse-jobs" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-              Browse Jobs
+              {t('navbar.browseJobs')}
             </a>
             <button 
               onClick={() => setSignupDialogOpen(true)} 
               className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
             >
-              Sign Up
+              {t('navbar.signUp')}
             </button>
             <button 
               onClick={() => setLoginDialogOpen(true)} 
               className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
             >
-              Log In
+              {t('navbar.logIn')}
             </button>
           </div>
           
           <div className="flex items-center space-x-4">
+            <LanguageSelector />
             <ThemeToggle />
             
             <Button 
@@ -105,10 +109,10 @@ export function Navbar() {
           >
             <div className="px-4 pt-2 pb-4 space-y-1">
               <a href="#how-it-works" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
-                How It Works
+                {t('navbar.howItWorks')}
               </a>
               <a href="#browse-jobs" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
-                Browse Jobs
+                {t('navbar.browseJobs')}
               </a>
               <button 
                 className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -117,7 +121,7 @@ export function Navbar() {
                   setIsOpen(false);
                 }}
               >
-                Sign Up
+                {t('navbar.signUp')}
               </button>
               <button 
                 className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -126,7 +130,7 @@ export function Navbar() {
                   setIsOpen(false);
                 }}
               >
-                Log In
+                {t('navbar.logIn')}
               </button>
             </div>
           </motion.div>
@@ -143,15 +147,15 @@ export function Navbar() {
       <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Log In</DialogTitle>
+            <DialogTitle>{t('modals.login.title')}</DialogTitle>
             <DialogDescription>
-              Enter your credentials to access your account
+              {t('modals.login.description')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Email
+                {t('modals.login.email')}
               </label>
               <input
                 type="email"
@@ -161,7 +165,7 @@ export function Navbar() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Password
+                {t('modals.login.password')}
               </label>
               <input
                 type="password"
@@ -169,9 +173,9 @@ export function Navbar() {
                 placeholder="••••••••"
               />
             </div>
-            <Button className="w-full">Log In</Button>
+            <Button className="w-full">{t('modals.login.button')}</Button>
             <div className="text-center text-sm">
-              Don't have an account?{" "}
+              {t('modals.login.noAccount')}{" "}
               <button 
                 className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
                 onClick={() => {
@@ -179,7 +183,7 @@ export function Navbar() {
                   setSignupDialogOpen(true);
                 }}
               >
-                Sign up
+                {t('modals.login.signUp')}
               </button>
             </div>
           </div>
@@ -190,15 +194,15 @@ export function Navbar() {
       <Dialog open={signupDialogOpen} onOpenChange={setSignupDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create Account</DialogTitle>
+            <DialogTitle>{t('modals.signup.title')}</DialogTitle>
             <DialogDescription>
-              Join our platform to find work or hire talented freelancers
+              {t('modals.signup.description')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Full Name
+                {t('modals.signup.fullName')}
               </label>
               <input
                 type="text"
@@ -208,7 +212,7 @@ export function Navbar() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Email
+                {t('modals.signup.email')}
               </label>
               <input
                 type="email"
@@ -218,7 +222,7 @@ export function Navbar() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Password
+                {t('modals.signup.password')}
               </label>
               <input
                 type="password"
@@ -229,19 +233,19 @@ export function Navbar() {
             <div className="flex items-center space-x-2">
               <input type="checkbox" id="terms" className="h-4 w-4 rounded border-gray-300" />
               <label htmlFor="terms" className="text-sm text-gray-500 dark:text-gray-400">
-                I agree to the{" "}
+                {t('modals.signup.agree')}{" "}
                 <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  Terms of Service
+                  {t('modals.signup.termsOfService')}
                 </a>{" "}
-                and{" "}
+                {t('modals.signup.and')}{" "}
                 <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
-                  Privacy Policy
+                  {t('modals.signup.privacyPolicy')}
                 </a>
               </label>
             </div>
-            <Button className="w-full">Create Account</Button>
+            <Button className="w-full">{t('modals.signup.button')}</Button>
             <div className="text-center text-sm">
-              Already have an account?{" "}
+              {t('modals.signup.hasAccount')}{" "}
               <button 
                 className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
                 onClick={() => {
@@ -249,7 +253,7 @@ export function Navbar() {
                   setLoginDialogOpen(true);
                 }}
               >
-                Log in
+                {t('modals.signup.logIn')}
               </button>
             </div>
           </div>

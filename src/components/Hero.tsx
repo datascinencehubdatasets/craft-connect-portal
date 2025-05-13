@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const searchSuggestions = [
   "Website Design",
@@ -18,6 +19,7 @@ const searchSuggestions = [
 ];
 
 export function Hero() {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -80,7 +82,7 @@ export function Hero() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
-          Find the perfect freelance services<br className="hidden md:block" /> for your business
+          {t('hero.title')}
         </motion.h1>
         
         <motion.div 
@@ -92,7 +94,7 @@ export function Hero() {
           <div className="flex rounded-xl overflow-hidden shadow-md bg-white dark:bg-gray-800">
             <Input
               type="text"
-              placeholder="Search for any service"
+              placeholder={t('hero.searchPlaceholder')}
               className="flex-1 px-4 py-3 text-lg border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
@@ -110,7 +112,7 @@ export function Hero() {
               onClick={handleSearch}
             >
               <Search className="mr-2 h-5 w-5" />
-              Search
+              {t('hero.searchButton')}
             </Button>
           </div>
           

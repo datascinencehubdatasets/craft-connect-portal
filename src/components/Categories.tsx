@@ -3,32 +3,34 @@ import { useState } from "react";
 import { Code, PenTool, FileText, Video, Music } from "lucide-react";
 import { motion } from "framer-motion";
 import { CategoryModal } from "./CategoryModal";
-
-const categories = [
-  {
-    name: "Web Development",
-    icon: Code,
-  },
-  {
-    name: "Design",
-    icon: PenTool,
-  },
-  {
-    name: "Writing",
-    icon: FileText,
-  },
-  {
-    name: "Video & Animation",
-    icon: Video,
-  },
-  {
-    name: "Music/Audio",
-    icon: Music,
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Categories() {
+  const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  
+  const categories = [
+    {
+      name: t('categories.webDevelopment'),
+      icon: Code,
+    },
+    {
+      name: t('categories.design'),
+      icon: PenTool,
+    },
+    {
+      name: t('categories.writing'),
+      icon: FileText,
+    },
+    {
+      name: t('categories.videoAnimation'),
+      icon: Video,
+    },
+    {
+      name: t('categories.musicAudio'),
+      icon: Music,
+    },
+  ];
   
   const container = {
     hidden: { opacity: 0 },
@@ -53,7 +55,7 @@ export function Categories() {
     <section className="py-16">
       <div className="container px-4 sm:px-6">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-gray-900 dark:text-white">
-          Popular Categories
+          {t('categories.title')}
         </h2>
 
         <motion.div

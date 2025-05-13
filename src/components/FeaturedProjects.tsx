@@ -3,56 +3,58 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ProjectDetailModal } from "./ProjectDetailModal";
-
-const projects = [
-  {
-    id: 1,
-    title: "Build a WordPress Website",
-    client: "Digital Agency Co.",
-    freelancer: {
-      id: 101,
-      name: "Alex Johnson",
-      avatar: "https://i.pravatar.cc/100?img=1",
-    },
-    budget: "$500 USD",
-  },
-  {
-    id: 2,
-    title: "Logo Design for Startup",
-    client: "Tech Innovate LLC",
-    freelancer: {
-      id: 102,
-      name: "Sarah Miller",
-      avatar: "https://i.pravatar.cc/100?img=5",
-    },
-    budget: "$300 USD",
-  },
-  {
-    id: 3,
-    title: "Content Writing for Blog",
-    client: "Marketing Masters",
-    freelancer: {
-      id: 103,
-      name: "Mike Wilson",
-      avatar: "https://i.pravatar.cc/100?img=3",
-    },
-    budget: "$250 USD",
-  },
-  {
-    id: 4,
-    title: "Mobile App UI/UX Design",
-    client: "App Solutions Inc.",
-    freelancer: {
-      id: 104,
-      name: "Emily Chen",
-      avatar: "https://i.pravatar.cc/100?img=9",
-    },
-    budget: "$800 USD",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function FeaturedProjects() {
+  const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState<any>(null);
+
+  const projects = [
+    {
+      id: 1,
+      title: "Build a WordPress Website",
+      client: "Digital Agency Co.",
+      freelancer: {
+        id: 101,
+        name: "Alex Johnson",
+        avatar: "https://i.pravatar.cc/100?img=1",
+      },
+      budget: "$500 USD",
+    },
+    {
+      id: 2,
+      title: "Logo Design for Startup",
+      client: "Tech Innovate LLC",
+      freelancer: {
+        id: 102,
+        name: "Sarah Miller",
+        avatar: "https://i.pravatar.cc/100?img=5",
+      },
+      budget: "$300 USD",
+    },
+    {
+      id: 3,
+      title: "Content Writing for Blog",
+      client: "Marketing Masters",
+      freelancer: {
+        id: 103,
+        name: "Mike Wilson",
+        avatar: "https://i.pravatar.cc/100?img=3",
+      },
+      budget: "$250 USD",
+    },
+    {
+      id: 4,
+      title: "Mobile App UI/UX Design",
+      client: "App Solutions Inc.",
+      freelancer: {
+        id: 104,
+        name: "Emily Chen",
+        avatar: "https://i.pravatar.cc/100?img=9",
+      },
+      budget: "$800 USD",
+    },
+  ];
 
   const handleProjectClick = (project: any) => {
     setSelectedProject(project);
@@ -62,7 +64,7 @@ export function FeaturedProjects() {
     <section className="py-16 bg-gray-50 dark:bg-gray-900">
       <div className="container px-4 sm:px-6">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-gray-900 dark:text-white">
-          Featured Projects
+          {t('featuredProjects.title')}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -87,7 +89,7 @@ export function FeaturedProjects() {
                         {project.title}
                       </h3>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Client: {project.client}
+                        {t('featuredProjects.client')}: {project.client}
                       </p>
                     </div>
                     <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-sm font-medium rounded-full">
