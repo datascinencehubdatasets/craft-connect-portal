@@ -1,5 +1,6 @@
 
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const projects = [
   {
@@ -7,6 +8,7 @@ const projects = [
     title: "Build a WordPress Website",
     client: "Digital Agency Co.",
     freelancer: {
+      id: 101,
       name: "Alex Johnson",
       avatar: "https://i.pravatar.cc/100?img=1",
     },
@@ -17,6 +19,7 @@ const projects = [
     title: "Logo Design for Startup",
     client: "Tech Innovate LLC",
     freelancer: {
+      id: 102,
       name: "Sarah Miller",
       avatar: "https://i.pravatar.cc/100?img=5",
     },
@@ -27,6 +30,7 @@ const projects = [
     title: "Content Writing for Blog",
     client: "Marketing Masters",
     freelancer: {
+      id: 103,
       name: "Mike Wilson",
       avatar: "https://i.pravatar.cc/100?img=3",
     },
@@ -37,6 +41,7 @@ const projects = [
     title: "Mobile App UI/UX Design",
     client: "App Solutions Inc.",
     freelancer: {
+      id: 104,
       name: "Emily Chen",
       avatar: "https://i.pravatar.cc/100?img=9",
     },
@@ -54,39 +59,50 @@ export function FeaturedProjects() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project) => (
-            <motion.div
-              key={project.id}
-              className="card-hover rounded-xl overflow-hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
+            <Link 
+              key={project.id} 
+              to={`/freelancer/${project.freelancer.id}`}
+              className="block"
             >
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Client: {project.client}
-                    </p>
+              <motion.div
+                className="card-hover rounded-xl overflow-hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/70"
+                whileHover={{ 
+                  scale: 1.02,
+                  boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
+                }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 300 
+                }}
+              >
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Client: {project.client}
+                      </p>
+                    </div>
+                    <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-sm font-medium rounded-full">
+                      {project.budget}
+                    </span>
                   </div>
-                  <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-sm font-medium rounded-full">
-                    {project.budget}
-                  </span>
-                </div>
 
-                <div className="flex items-center mt-6">
-                  <img
-                    src={project.freelancer.avatar}
-                    alt={project.freelancer.name}
-                    className="h-10 w-10 rounded-full mr-3"
-                  />
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {project.freelancer.name}
-                  </span>
+                  <div className="flex items-center mt-6">
+                    <img
+                      src={project.freelancer.avatar}
+                      alt={project.freelancer.name}
+                      className="h-10 w-10 rounded-full mr-3"
+                    />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {project.freelancer.name}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>
