@@ -1,6 +1,8 @@
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ProjectDetailModal } from "./ProjectDetailModal";
 
 const projects = [
   {
@@ -50,6 +52,12 @@ const projects = [
 ];
 
 export function FeaturedProjects() {
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+
+  const handleProjectClick = (project: any) => {
+    setSelectedProject(project);
+  };
+
   return (
     <section className="py-16 bg-gray-50 dark:bg-gray-900">
       <div className="container px-4 sm:px-6">
@@ -59,11 +67,7 @@ export function FeaturedProjects() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project) => (
-            <Link 
-              key={project.id} 
-              to={`/freelancer/${project.freelancer.id}`}
-              className="block"
-            >
+            <div key={project.id} className="block">
               <motion.div
                 className="card-hover rounded-xl overflow-hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/70"
                 whileHover={{ 
@@ -74,6 +78,7 @@ export function FeaturedProjects() {
                   type: "spring", 
                   stiffness: 300 
                 }}
+                onClick={() => handleProjectClick(project)}
               >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
@@ -91,21 +96,36 @@ export function FeaturedProjects() {
                   </div>
 
                   <div className="flex items-center mt-6">
-                    <img
-                      src={project.freelancer.avatar}
-                      alt={project.freelancer.name}
-                      className="h-10 w-10 rounded-full mr-3"
-                    />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <Link to={`/freelancer/${project.freelancer.id}`} onClick={(e) => e.stopPropagation()}>
+                      <img
+                        src={project.freelancer.avatar}
+                        alt={project.freelancer.name}
+                        className="h-10 w-10 rounded-full mr-3"
+                      />
+                    </Link>
+                    <Link 
+                      to={`/freelancer/${project.freelancer.id}`}
+                      className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       {project.freelancer.name}
-                    </span>
+                    </Link>
                   </div>
                 </div>
               </motion.div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
+
+      {/* Project Detail Modal */}
+      {selectedProject && (
+        <ProjectDetailModal 
+          isOpen={!!selectedProject}
+          onClose={() => setSelectedProject(null)}
+          project={selectedProject}
+        />
+      )}
     </section>
   );
 }

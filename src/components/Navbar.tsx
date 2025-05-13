@@ -5,10 +5,22 @@ import { Bell, MessageCircle, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import { NotificationsPanel } from "./NotificationsPanel";
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription
+} from "@/components/ui/dialog";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(1);
+  const [notificationsPanelOpen, setNotificationsPanelOpen] = useState(false);
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [signupDialogOpen, setSignupDialogOpen] = useState(false);
   
   // Simulate new notification every 30 seconds
   useState(() => {
@@ -23,9 +35,9 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <a href="/" className="flex-shrink-0 flex items-center">
+            <Link to="/" className="flex-shrink-0 flex items-center">
               <span className="text-xl font-bold text-blue-600 dark:text-blue-400">YourLogo</span>
-            </a>
+            </Link>
           </div>
           
           {/* Desktop menu */}
@@ -36,18 +48,29 @@ export function Navbar() {
             <a href="#browse-jobs" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
               Browse Jobs
             </a>
-            <a href="#sign-up" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            <button 
+              onClick={() => setSignupDialogOpen(true)} 
+              className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
               Sign Up
-            </a>
-            <a href="#log-in" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            </button>
+            <button 
+              onClick={() => setLoginDialogOpen(true)} 
+              className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
               Log In
-            </a>
+            </button>
           </div>
           
           <div className="flex items-center space-x-4">
             <ThemeToggle />
             
-            <Button variant="ghost" size="icon" className="relative">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={() => setNotificationsPanelOpen(true)}
+            >
               <Bell size={20} />
               {notificationCount > 0 && (
                 <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white rounded-full">
@@ -87,16 +110,151 @@ export function Navbar() {
               <a href="#browse-jobs" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
                 Browse Jobs
               </a>
-              <a href="#sign-up" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+              <button 
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                onClick={() => {
+                  setSignupDialogOpen(true);
+                  setIsOpen(false);
+                }}
+              >
                 Sign Up
-              </a>
-              <a href="#log-in" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+              </button>
+              <button 
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                onClick={() => {
+                  setLoginDialogOpen(true);
+                  setIsOpen(false);
+                }}
+              >
                 Log In
-              </a>
+              </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Notifications Panel */}
+      <NotificationsPanel 
+        isOpen={notificationsPanelOpen} 
+        onClose={() => setNotificationsPanelOpen(false)} 
+      />
+
+      {/* Login Dialog */}
+      <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Log In</DialogTitle>
+            <DialogDescription>
+              Enter your credentials to access your account
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Email
+              </label>
+              <input
+                type="email"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="example@email.com"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Password
+              </label>
+              <input
+                type="password"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="••••••••"
+              />
+            </div>
+            <Button className="w-full">Log In</Button>
+            <div className="text-center text-sm">
+              Don't have an account?{" "}
+              <button 
+                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                onClick={() => {
+                  setLoginDialogOpen(false);
+                  setSignupDialogOpen(true);
+                }}
+              >
+                Sign up
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Signup Dialog */}
+      <Dialog open={signupDialogOpen} onOpenChange={setSignupDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create Account</DialogTitle>
+            <DialogDescription>
+              Join our platform to find work or hire talented freelancers
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Full Name
+              </label>
+              <input
+                type="text"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="John Doe"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Email
+              </label>
+              <input
+                type="email"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="example@email.com"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Password
+              </label>
+              <input
+                type="password"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="••••••••"
+              />
+            </div>
+            <div className="flex items-center space-x-2">
+              <input type="checkbox" id="terms" className="h-4 w-4 rounded border-gray-300" />
+              <label htmlFor="terms" className="text-sm text-gray-500 dark:text-gray-400">
+                I agree to the{" "}
+                <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  Terms of Service
+                </a>{" "}
+                and{" "}
+                <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  Privacy Policy
+                </a>
+              </label>
+            </div>
+            <Button className="w-full">Create Account</Button>
+            <div className="text-center text-sm">
+              Already have an account?{" "}
+              <button 
+                className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                onClick={() => {
+                  setSignupDialogOpen(false);
+                  setLoginDialogOpen(true);
+                }}
+              >
+                Log in
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 }

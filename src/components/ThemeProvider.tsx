@@ -35,6 +35,9 @@ export function ThemeProvider({
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
 
+    // Add transition for smooth color changes
+    root.style.transition = "background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease";
+
     if (theme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
         .matches

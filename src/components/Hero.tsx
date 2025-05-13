@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const searchSuggestions = [
   "Website Design",
@@ -17,6 +18,7 @@ const searchSuggestions = [
 ];
 
 export function Hero() {
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
@@ -49,6 +51,20 @@ export function Hero() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleSearch = () => {
+    if (searchValue.trim()) {
+      // Navigate to search results 
+      navigate(`/search?q=${encodeURIComponent(searchValue)}`);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchValue(suggestion);
+    setShowSuggestions(false);
+    // Navigate to search results with the selected suggestion
+    navigate(`/search?q=${encodeURIComponent(suggestion)}`);
+  };
 
   return (
     <motion.section 
@@ -83,8 +99,16 @@ export function Hero() {
               onFocus={() => {
                 if (searchValue.length > 0) setShowSuggestions(true);
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch();
+                }
+              }}
             />
-            <Button className="rounded-l-none px-6 py-6 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+            <Button 
+              className="rounded-l-none px-6 py-6 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+              onClick={handleSearch}
+            >
               <Search className="mr-2 h-5 w-5" />
               Search
             </Button>
@@ -101,10 +125,7 @@ export function Hero() {
                   <li 
                     key={index} 
                     className="px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                    onClick={() => {
-                      setSearchValue(suggestion);
-                      setShowSuggestions(false);
-                    }}
+                    onClick={() => handleSuggestionClick(suggestion)}
                   >
                     {suggestion}
                   </li>
